@@ -2,19 +2,59 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Compile C++23 folder",
+      "label": "Compile active C++23 file",
       "type": "process",
-      "command": "/bin/bash",
+      "command": "g++-15",
+      "args": [
+        "-std=c++23",
+        "-g",
+        "${file}",
+        "-o",
+        "${workspaceFolder}/.vscode/build/${fileBasenameNoExtension}.exe"
+      ],
+      "windows": {
+        "command": "g++",
+        "args": [
+          "-std=c++23",
+          "-g",
+          "${file}",
+          "-o",
+          "${workspaceFolder}/.vscode/build/${fileBasenameNoExtension}.exe",
+          "-lstdc++exp"
+        ]
+      },
+      "linux": {
+        "command": "g++-15"
+      },
+      "osx": {
+        "command": "g++-15"
+      },
+      "problemMatcher": "$gcc",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "detail": "Compile the active source file as a standalone C++23 program."
+    },
+    {
+      "label": "Compile active C++23 folder",
+      "type": "process",
+      "command": "sh",
       "args": [
         "-c",
-        "set -eu\nsources=()\nfor source in \"$CPP_SOURCE_DIR\"/*.cpp; do\n  [ -f \"$source\" ] && sources+=(\"$source\")\ndone\nif [ \"${#sources[@]}\" -eq 0 ]; then echo \"No .cpp files found in the active folder.\" >&2; exit 1; fi\nname=program\nif [ \"${#sources[@]}\" -eq 1 ]; then name=\"${sources[0]##*/}\"; name=\"${name%.cpp}\"; fi\nmkdir -p \"$CPP_BUILD_DIR\"\n\"$CPP_COMPILER\" -std=c++23 -g \"${sources[@]}\" -o \"$CPP_BUILD_DIR/$name\""
+        "set -eu\nset -- \"$CPP_SOURCE_DIR\"/*.cpp\nif [ ! -f \"$1\" ]; then\n  echo \"No .cpp files found in the active folder.\" >&2\n  exit 1\nfi\nmkdir -p \"$CPP_BUILD_DIR\"\n\"$CPP_COMPILER\" -std=c++23 -g \"$@\" -o \"$CPP_BUILD_DIR/program.exe\""
       ],
       "options": {
         "cwd": "${fileDirname}",
         "env": {
           "CPP_SOURCE_DIR": "${fileDirname}",
           "CPP_BUILD_DIR": "${workspaceFolder}/.vscode/build",
-          "CPP_COMPILER": "g++"
+          "CPP_COMPILER": "g++-15"
         }
       },
       "windows": {
@@ -23,8 +63,26 @@
           "-NoProfile",
           "-NonInteractive",
           "-Command",
-          "$ErrorActionPreference = 'Stop'; $sources = @(Get-ChildItem -LiteralPath $env:CPP_SOURCE_DIR -File -Filter '*.cpp' | Sort-Object Name); if ($sources.Count -eq 0) { throw 'No .cpp files found in the active folder.' }; $name = if ($sources.Count -gt 1) { 'program' } else { $sources[0].BaseName }; New-Item -ItemType Directory -Force -Path $env:CPP_BUILD_DIR | Out-Null; $output = Join-Path $env:CPP_BUILD_DIR ($name + '.exe'); $sourcePaths = @($sources | ForEach-Object { $_.FullName }); & g++ '-std=c++23' '-g' @sourcePaths '-o' $output '-lstdc++exp'; exit $LASTEXITCODE"
-        ]
+          "$ErrorActionPreference = 'Stop'; $sources = @(Get-ChildItem -LiteralPath $env:CPP_SOURCE_DIR -File -Filter '*.cpp' | Sort-Object Name); if ($sources.Count -eq 0) { throw 'No .cpp files found in the active folder.' }; New-Item -ItemType Directory -Force -Path $env:CPP_BUILD_DIR | Out-Null; $output = Join-Path $env:CPP_BUILD_DIR 'program.exe'; $sourcePaths = @($sources | ForEach-Object { $_.FullName }); & $env:CPP_COMPILER '-std=c++23' '-g' @sourcePaths '-o' $output '-lstdc++exp'; exit $LASTEXITCODE"
+        ],
+        "options": {
+          "cwd": "${fileDirname}",
+          "env": {
+            "CPP_SOURCE_DIR": "${fileDirname}",
+            "CPP_BUILD_DIR": "${workspaceFolder}/.vscode/build",
+            "CPP_COMPILER": "g++"
+          }
+        }
+      },
+      "linux": {
+        "options": {
+          "cwd": "${fileDirname}",
+          "env": {
+            "CPP_SOURCE_DIR": "${fileDirname}",
+            "CPP_BUILD_DIR": "${workspaceFolder}/.vscode/build",
+            "CPP_COMPILER": "g++-15"
+          }
+        }
       },
       "osx": {
         "options": {
@@ -32,15 +90,18 @@
           "env": {
             "CPP_SOURCE_DIR": "${fileDirname}",
             "CPP_BUILD_DIR": "${workspaceFolder}/.vscode/build",
-            "CPP_COMPILER": "clang++"
+            "CPP_COMPILER": "g++-15"
           }
         }
       },
       "problemMatcher": "$gcc",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "clear": true
+      },
+      "detail": "Compile every .cpp file in the active source file's folder as one C++23 program."
     }
   ]
 }

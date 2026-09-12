@@ -2,16 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run C++23 folder (single .cpp file)",
+      "name": "Run active C++23 file",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/.vscode/build/${fileBasenameNoExtension}",
+      "program": "${workspaceFolder}/.vscode/build/${fileBasenameNoExtension}.exe",
       "cwd": "${fileDirname}",
       "stopAtEntry": false,
       "MIMode": "gdb",
-      "preLaunchTask": "Compile C++23 folder",
+      "preLaunchTask": "Compile active C++23 file",
       "windows": {
-        "program": "${workspaceFolder}/.vscode/build/${fileBasenameNoExtension}.exe",
         "miDebuggerPath": "gdb.exe"
       },
       "linux": {
@@ -22,16 +21,15 @@
       }
     },
     {
-      "name": "Run C++23 folder (multiple .cpp files)",
+      "name": "Run active C++23 folder",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/.vscode/build/program",
+      "program": "${workspaceFolder}/.vscode/build/program.exe",
       "cwd": "${fileDirname}",
       "stopAtEntry": false,
       "MIMode": "gdb",
-      "preLaunchTask": "Compile C++23 folder",
+      "preLaunchTask": "Compile active C++23 folder",
       "windows": {
-        "program": "${workspaceFolder}/.vscode/build/program.exe",
         "miDebuggerPath": "gdb.exe"
       },
       "linux": {

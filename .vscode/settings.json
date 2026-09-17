@@ -2,6 +2,6 @@
     "files.exclude": {
         "**/vcr-course.json": true,
         "**/.gitkeep": true,
-        
+        "**/vcr-sessions": true
     }
 }

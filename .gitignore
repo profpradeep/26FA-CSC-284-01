@@ -39,9 +39,9 @@
 *.app
 
 # Build directories
-build/*
+build/
+Build/
 build-*/
-!build/.gitkeep
 
 # CMake generated files
 CMakeFiles/
@@ -66,3 +66,5 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+.DS_Store/

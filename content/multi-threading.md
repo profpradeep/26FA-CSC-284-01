@@ -69,7 +69,6 @@ Now consider a computer with multiple CPU cores:
 - Multiple instructions can execute at the same time.
 - This is parallel execution.
 
-[Notes for 4.1.7 Understanding Concurrency - IB | RevisionDojo]
 ![Diagram](https://raw.githubusercontent.com/profpradeep/26FA-CSC-284-01/main/content/images/RevisionDojoConcurrencyVsParallelism.jpg)
 
 [revisiondojo.com](https://www.revisiondojo.com/ib/ib-computer-science/ib-computer-science-4114-concurrent-solution-implementation/notes)
